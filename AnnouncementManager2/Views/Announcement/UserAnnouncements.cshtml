@@ -1,0 +1,89 @@
+﻿@model AnnouncementManager2.Core.ViewModels.AnnouncementsViewModel
+
+@{
+    ViewData["Title"] = "UserAnnouncements";
+}
+
+<h1>Moje ogłoszenia</h1>
+
+<form id="filterForm">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    @Html.TextBoxFor(x => x.FilterAnnouncements.Title,
+                    new { @class = "form-control", placeholder="Tytuł"})
+                </td>
+                <td width="200px">
+                    @Html.DropDownListFor(x => x.FilterAnnouncements.CategoryId,
+                    new SelectList(Model.Categories, "Id", "Name"), "--Wybierz kategorie--",
+                    new { @class = "form-control mr-1"})
+                </td>
+                <td width="200px">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Szukaj</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>        
+</form>
+
+<div>
+    @await Html.PartialAsync("_UserAnnouncementTable.cshtml", Model.Announcements)
+</div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#filterForm').submit(function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UserAnnouncements", "Announcement")",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#userAnnouncementTable').html(data);
+                    },
+                    error: function (data) {
+                        alert(data.message)
+                    },
+                    dataType: "html"
+                });
+
+                return false;
+            });
+
+        });
+
+        function deleteAnnouncement(id, btn) {
+
+            if (!confirm("Czy na pewno chcesz usunąc zadanie"))
+                return;
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteAnnouncement", "Announcement")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    } else {
+                        alert(data.message)
+                    }
+                },
+                error: function (data) {
+                    alert(data.message)
+                },
+                dataType: "json"
+            });
+        }
+
+    </script>
+}

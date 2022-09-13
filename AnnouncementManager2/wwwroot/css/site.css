@@ -1,0 +1,51 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f9f9f9;
+}
+
+.bg-customclass {
+    background-color: #5e855d;
+}
+
+.text-muted {
+    color: black !important;
+}
+
+.bg-custom-container {
+    background-color: white !important;
+    min-height: 1000px;
+}
+
+.border-top {
+    border-color: darkgray !important;
+}
+
+textarea {
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+.verticalLine {
+    border-left: 1px solid black;
+}
+
+.btn-save-announcement {
+    width: 200px;
+}

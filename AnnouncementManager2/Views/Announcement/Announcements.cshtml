@@ -1,0 +1,100 @@
+﻿@model AnnouncementManager2.Core.ViewModels.AnnouncementsViewModel
+
+@{
+    ViewData["Title"] = "Announcements";
+}
+
+
+<div class="row">
+    <div class="col-lg-2">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        <h6>Kategorie</h6>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr onclick="filterCategory('0')">
+                    <td>Wszystkie</td>
+                </tr>
+                @foreach (var category in Model.Categories)
+                {
+                    <tr onclick="filterCategory('@category.Id')">
+                        <td>@category.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-10">
+        <form id="filterTitle">    
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.TextBoxFor(x => x.FilterAnnouncements.Title, new { @class = "form-control ",placeholder="Tytuł"})
+                        </td>
+
+                        <td width="200px">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Szukaj</button>
+                            </div>                           
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <div>
+            @await Html.PartialAsync("_AnnouncementTable.cshtml", Model.Announcements)
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#filterTitle').submit(function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Announcements", "Announcement")",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#announcementTable').html(data);
+                    },
+                    error: function (data) {
+                        alert(data.message)
+                    },
+                    dataType: "html"
+                });
+
+                return false;
+            });
+
+        });
+
+        function filterCategory(id) {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SelectCategory", "Announcement")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    $('#announcementTable').html(data);
+                },
+                error: function (data) {
+                    alert(data.message)
+                },
+                dataType: "html"
+            });
+        }
+
+    </script>
+}

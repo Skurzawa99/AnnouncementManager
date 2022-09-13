@@ -1,0 +1,44 @@
+﻿@model IEnumerable<AnnouncementManager2.Core.Models.Domains.Announcement>
+
+<div id="announcementTable">
+    <table class="table table-striped table-hover">
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var announcement in Model)
+                {
+                    <tr onclick="location.href = '@Url.Action("AnnouncementWindow", "Announcement", new { id = announcement.Id })'">
+                        <td>
+                            <img src="~/Images/@announcement.ImageName"
+                         width="150px"
+                         height="150px"
+                         asp-append-version="true" />
+                        </td>
+                        <td>
+                            <h6>@announcement.Subject</h6>
+                            <span>@Html.Raw(announcement.Body.Substring(0, 50))</span>
+                            <h5>@announcement.Price zł</h5>
+                        </td>
+                        <td>
+                            <h6>Autor ogłoszenia:</h6>
+                            @announcement.UserName
+                            <h6>Data dodania:</h6>
+                            @announcement.StartAnnouncement
+                            <br/>
+                            <small>Nr ogłoszenia: @announcement.Id</small>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center" colspan="5">
+                        Brak ogłoszeń
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

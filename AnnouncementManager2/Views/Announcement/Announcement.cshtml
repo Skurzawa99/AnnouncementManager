@@ -1,0 +1,54 @@
+﻿@model AnnouncementManager2.Core.ViewModels.AnnouncementViewModel
+@{
+    ViewData["Title"] = "Announcement";
+}
+
+<h1>@Model.Heading</h1>
+
+@using (Html.BeginForm("Announcement", "Announcement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Announcement.Id)
+    <div class="row">
+        <div class="col-lg-6 mb-3">
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Announcement.Subject)
+                @Html.TextBoxFor(x => x.Announcement.Subject, new{ @class = "form-control", autofocus="autofocus"})
+                @Html.ValidationMessageFor(x => x.Announcement.Subject)
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Announcement.CategoryId)
+                @Html.DropDownListFor(x => x.Announcement.CategoryId,
+                    new SelectList(Model.Categories, "Id", "Name"), "--Wybierz kategorie--",
+                    new { @class ="form-control"})
+                @Html.ValidationMessageFor(x => x.Announcement.CategoryId)
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(x => x.Announcement.Price)
+                @Html.TextBoxFor(x => x.Announcement.Price, new{ @class = "form-control", autofocus="autofocus"})
+                @Html.ValidationMessageFor(x => x.Announcement.Price)
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 offset-lg-2 mb-3 align-items-center">
+            <div class="form-control">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" accept="image/*" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        @Html.LabelFor(x => x.Announcement.Body)
+        @Html.TextAreaFor(x => x.Announcement.Body, new{ @class = "form-control mx-auto", style="width:98%", @rows = 15})
+        @Html.ValidationMessageFor(x => x.Announcement.Body)
+    </div>
+    <div class="float-lg-end">
+        <button class="btn btn-primary btn-lg btn-save-announcement" type="submit">Zapisz</button>
+    </div>
+
+}
