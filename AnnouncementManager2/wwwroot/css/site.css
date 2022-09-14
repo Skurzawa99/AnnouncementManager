@@ -49,3 +49,7 @@ textarea {
 .btn-save-announcement {
     width: 200px;
 }
+
+.sortable tbody{
+    cursor: pointer;
+}

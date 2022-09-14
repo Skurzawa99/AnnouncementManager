@@ -53,9 +53,15 @@ namespace AnnouncementManager2.Persistence.Services
         public string UploadFile(IFormFile image)
         {
             string fileName = null;
+
+            string folderName = "Images";
+            string folderPath = @"wwwroot\" + folderName;
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
             if (image != null)
             {
-                string uploadDir = Path.Combine(_hostEnvironment.WebRootPath, "Images");
+                string uploadDir = Path.Combine(_hostEnvironment.WebRootPath, folderName);
                 fileName = Guid.NewGuid().ToString() + "-" + image.FileName;
                 string filePath = Path.Combine(uploadDir, fileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))

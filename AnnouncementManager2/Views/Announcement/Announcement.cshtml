@@ -27,7 +27,7 @@
 
             <div class="mb-3">
                 @Html.LabelFor(x => x.Announcement.Price)
-                @Html.TextBoxFor(x => x.Announcement.Price, new{ @class = "form-control", autofocus="autofocus"})
+                @Html.TextBoxFor(x => x.Announcement.Price, new{ @class = "form-control", @type="number", autofocus="autofocus"})
                 @Html.ValidationMessageFor(x => x.Announcement.Price)
             </div>
 
